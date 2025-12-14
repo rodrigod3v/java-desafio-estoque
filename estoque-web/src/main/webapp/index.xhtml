@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Estoque - Dashboard</title>
+</h:head>
+<h:body>
+    <h1>Alerta de Estoque Baixo</h1>
+    <h:link value="Buscar Produtos" outcome="busca.xhtml" />
+    <hr/>
+    
+    <h:dataTable value="#{dashboardBean.produtosEstoqueBaixo}" var="p" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{p.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Descrição</f:facet>
+            #{p.descricao}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Qtd. Mínima</f:facet>
+            #{p.quantidadeMinima}
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>

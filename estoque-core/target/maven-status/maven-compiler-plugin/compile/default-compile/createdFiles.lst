@@ -1,0 +1,8 @@
+com\estoque\dao\AbstractDAO.class
+com\estoque\dao\MovimentoEstoqueDAO.class
+com\estoque\service\ProdutoService.class
+com\estoque\model\MovimentoEstoque.class
+com\estoque\model\TipoMovimentacao.class
+com\estoque\service\EstoqueService.class
+com\estoque\dao\ProdutoDAO.class
+com\estoque\model\Produto.class
