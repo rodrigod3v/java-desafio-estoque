@@ -10,6 +10,7 @@ Este projeto é uma solução completa para gerenciamento de estoque, desenvolvi
 - **PostgreSQL**: Banco de dados relacional.
 - **Swing**: Interface Desktop para operações diárias.
 - **JSF (JavaServer Faces)**: Interface Web para relatórios e dashboards.
+- **Jetty**: Plugin Maven para execução fácil da versão Web.
 
 ## 🏗️ Arquitetura do Projeto
 
@@ -17,61 +18,64 @@ O projeto é dividido em módulos Maven para melhor organização:
 
 1.  **estoque-core**:
     -   Contém as Entidades (`Produto`, `MovimentoEstoque`).
-    -   Regras de Negócio e Serviços (`ProdutoService`, `EstoqueService`).
+    -   Regras de Negócio e Serviços (`ProdutoService`, `MovimentoService`).
     -   Acesso a Dados (DAOs).
     -   *Destaque*: O estoque atual é calculado dinamicamente (`Soma Entradas - Soma Saídas`), garantindo integridade dos dados.
 
 2.  **estoque-desktop**:
     -   Aplicação GUI Swing.
-    -   Cadastro de Produtos e Registro de Movimentações.
+    -   **Visão Geral (Home)**: Dashboard com saldos em tempo real e histórico de movimentações.
+    -   Cadastro de Produtos e Registro de Movimentações (Entrada/Saída).
 
 3.  **estoque-web**:
-    -   Aplicação Web Rodando em Tomcat/Jetty.
-    -   Dashboard de "Estoque Baixo".
-    -   Busca de produtos com visualização do saldo atual calculado.
+    -   Aplicação Web Rodando em Jetty.
+    -   Busca de produtos e visualização de status.
 
-## ⚙️ Como Executar
+## ⚙️ Configuração e Execução
 
 ### Pré-requisitos
 -   Java JDK 8+
 -   Maven 3+
 -   PostgreSQL
--   Tomcat (Opcional, para o módulo Web)
 
 ### 1. Banco de Dados
-Crie um banco de dados chamado `estoque_db` no PostgreSQL e execute o script de esquema:
+Certifique-se de ter um banco PostgreSQL rodando. O projeto espera:
+- **Banco**: `estoque_db`
+- **Usuário**: `postgres`
+- **Senha**: `123` (Configurável em `estoque-core/src/main/resources/META-INF/persistence.xml`)
 
+Crie o banco e as tabelas:
 ```sql
 CREATE DATABASE estoque_db;
--- Execute o conteúdo do arquivo schema.sql na raiz do projeto
+-- O Hibernate (hbm2ddl) irá criar as tabelas automaticamente na primeira execução
 ```
 
-*Nota: A configuração de conexão está em `estoque-core/src/main/resources/META-INF/persistence.xml` (padrão: localhost:5432, user: postgres, pass: postgres).*
-
 ### 2. Build do Projeto
-Na raiz do projeto, execute:
+Na raiz do projeto, execute para baixar dependências e compilar:
 ```bash
 mvn clean install
 ```
-Isso irá compilar, testar e gerar os artefatos (`.jar` e `.war`).
 
-### 3. Executando a Aplicação Desktop
-O build gera um JAR executável (shaded) com todas as dependências:
+### 3. Executando a Aplicação Desktop 🖥️
+A aplicação desktop inicia com um dashboard de visão geral.
 ```bash
 java -jar estoque-desktop/target/estoque-desktop-1.0-SNAPSHOT.jar
 ```
 
-### 4. Executando a Aplicação Web
-Faça o deploy do arquivo WAR gerado no seu servidor de aplicação (ex: Tomcat):
--   Arquivo: `estoque-web/target/estoque-web-1.0-SNAPSHOT.war`
--   Acesse: `http://localhost:8080/estoque-web-1.0-SNAPSHOT/`
+### 4. Executando a Aplicação Web 🌐
+Para rodar a versão web facilmante com Jetty:
+```bash
+mvn jetty:run -pl estoque-web
+```
+Acesse no navegador:
+-   **URL Principal**: [http://localhost:8080/estoque](http://localhost:8080/estoque)
 
 ## 📋 Funcionalidades Implementadas
 
--   **Persistência**: Mapeamento JPA completo com Enums para tipos de movimentação.
--   **Regra de Negócio**: Cálculo de saldo em tempo real, sem redundância de dados na tabela de produto.
--   **Interface Desktop**: Formulários para cadastro e controle de fluxo (Entrada/Saída).
--   **Interface Web**: Dashboard proativo exibindo produtos com estoque abaixo do mínimo.
+-   **Persistência**: Mapeamento JPA completo.
+-   **Regra de Negócio Dinâmica**: Saldo de estoque é sempre uma projeção das movimentações, evitando inconsistências.
+-   **Desktop Rico**: Interface Swing com abas para visualização rápida de saldos e histórico.
+-   **Web Integrada**: Módulo web acessível via navegador.
 
 ---
 Desenvolvido por [Rodrigo](https://github.com/rodrigod3v)
