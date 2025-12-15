@@ -5,4 +5,5 @@ com\estoque\model\MovimentoEstoque.class
 com\estoque\model\TipoMovimentacao.class
 com\estoque\service\EstoqueService.class
 com\estoque\dao\ProdutoDAO.class
+com\estoque\service\MovimentoService.class
 com\estoque\model\Produto.class

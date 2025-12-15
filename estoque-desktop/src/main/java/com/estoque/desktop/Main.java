@@ -5,11 +5,17 @@ import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
+    private VisaoGeralPanel visaoGeralPanel;
+
     public Main() {
         setTitle("Sistema de Controle de Estoque");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new java.awt.BorderLayout());
+
+        visaoGeralPanel = new VisaoGeralPanel();
+        add(visaoGeralPanel, java.awt.BorderLayout.CENTER);
 
         JMenuBar menuBar = new JMenuBar();
         
@@ -19,6 +25,11 @@ public class Main extends JFrame {
         menuCadastro.add(itemProduto);
 
         JMenu menuEstoque = new JMenu("Estoque");
+        
+        JMenuItem itemVisaoGeral = new JMenuItem("Atualizar Visão Geral");
+        itemVisaoGeral.addActionListener(e -> visaoGeralPanel.atualizarDados());
+        menuEstoque.add(itemVisaoGeral);
+        
         JMenuItem itemMovimentacao = new JMenuItem("Movimentação (Entrada/Saída)");
         itemMovimentacao.addActionListener(this::abrirMovimentoForm);
         menuEstoque.add(itemMovimentacao);
